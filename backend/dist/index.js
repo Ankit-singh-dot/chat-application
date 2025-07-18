@@ -15,10 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const client_1 = require("@prisma/client");
 const dotenv_1 = __importDefault(require("dotenv"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const authRoute_1 = __importDefault(require("./routes/authRoute"));
 dotenv_1.default.config();
 const prisma = new client_1.PrismaClient();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT;
+app.use(express_1.default.json());
+app.use((0, cookie_parser_1.default)());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use("/api/auth", authRoute_1.default);
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
